@@ -1,0 +1,9 @@
+0;1;2;3;4;5;6;7;8
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Doc625;;Reprises;;PremierNiveau;;Instruction;Note: This job is rerunnable.  No Callout to TS support if this job fails.
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Doc625;;Reprises;;DeuxiemeNiveau;;Instruction;Note: Advise TS support via email with the associated Heat ticket number. The job can be run at any time.
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Etapes;;Etape;;RepriseAutomatique;;Etape;ETAPE0020
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Etapes;;Etape;;RepriseManuelle;;Etape;ETAPE0020
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Etapes;;Etape;;RepriseAutomatique;;Etape;ETAPE0040
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Etapes;;Etape;;RepriseManuelle;;Etape;ETAPE0040
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Etapes;;Etape;;RepriseAutomatique;;Etape;ETAPE0050
+C:\Users\LI2BTL\OneDrive - Industrial Alliance\Documents\Batch 2\XML\NBMY648Q.xml;Etapes;;Etape;;RepriseManuelle;;Etape;ETAPE0050

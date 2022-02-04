@@ -1,0 +1,29 @@
+Monthly Import Online Processing Date (MASTIN)
+Daily Import Batch Processing Dates (MASTOUT)
+Daily Import Online Processing Date (MASTIN)
+Monthly Group Credit Processing
+Daily Group Credit Updates
+Daily RBC PAC Billing/Extract/Transfer
+Daily Group Credit EFT Processing
+Daily Group Credit Journal Processing - Extract Journals to an ASCII File
+Daily Group Credit Cheque Processing - Extract Cheques o an ASCII File
+Monthly - Create Various Misc Reports
+Monthly - Create Premium Results Reports
+Quarterly - Create Quarterly Reports
+Monthly Group Credit Application Role Password reset 
+Il n'y a pas de .ini / .625
+Daily Import Batch Processing Dates (MASTOUT)
+Annual Clean-up of Pending certificate records that are more than one year old and no changes applied.
+Monthly G2 Processing
+Daily G2 Updates
+Daily BL PAC Billing/Extract/Transfer
+Daily RBC PAC Billing/Extract/Transfer
+Daily G2 Daily Extracts / Transfer
+Daily Import Online Processing Date (MASTIN)
+Daily or On Request - Load/Validate BL Import Files
+Daily or On Request - Delete BL*.TXT Files from L:
+Daily - Delete PRINT/TRANSFER files from G2 dir (Except for O:\G2\Transfer files - step 7/9)
+Monthly - Create / TRansfer Various Misc Reports
+Monthly - Create / Transfer Premium Results Reports
+Copy the BLGC****.TXT files from :\Transfer\NWIA_SHR\Prod directory to O:\G2\transer directory.
+Control & Validate the imported records into G2 system.

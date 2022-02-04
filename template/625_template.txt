@@ -1,0 +1,38 @@
+  DESCRIPTION
+
+;  {{ name }}.WBT
+;*********************************************************************
+; Synchronisation des participants Tide/Tango
+;*********************************************************************
+;************************************
+;************************************
+
+{% for step in etapes %}
+	{{ step.etape }}	{{ step.job }}
+{% endfor %}
+
+
+  REPRISE PREMIER NIVEAU
+
+OUI
+
+  APPEL DEUXIEME NIVEAU
+
+NON
+
+  INSTRUCTIONS DE REPRISE
+
+===> INTERRUPTION           REPRISE
+     JOBSTEP                JOBSTEP
+______(étape) (pgm)_________________________________________________
+{% for step in etapes %}
+===> {{ step.etape }}	{{ step["job"] }}     {{step["reprise"]}}
+
+____________________________________________________________________
+{% endfor %}
+
+  ETAPES DE REPRISE
+
+{% for step in etapes %}
+	{{ step.etape }}	O
+{% endfor %}

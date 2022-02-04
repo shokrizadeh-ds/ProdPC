@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Travail xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="file:////ia.iafg.net/r01/Svc/SCOPC-PRODPC/COEUR/schema/ProdPCXMLSchema.xsd"
+  xmlns="file:////ia.iafg.net/r01/Svc/SCOPC-PRODPC/COEUR/schema/ProdPCXMLSchema.xsd">
+	<Description>
+		{{ prodpc.description }}
+	</Description>
+	<Doc625>
+		<Instruction>Toujours reprendre du début</Instruction>
+		<Reprises>
+			<PremierNiveau Permise="oui">
+			<Instruction></Instruction>
+		</PremierNiveau>
+		<DeuxiemeNiveau Permise="oui">
+			<Instruction></Instruction>
+		</DeuxiemeNiveau>
+		</Reprises>
+	</Doc625>
+	<Etapes>  
+		<Etape>
+			<Nom>ETAPE010</Nom>
+			<Description>
+				Étapes GcCommon
+			</Description>
+			<Programme>GcCommon</Programme>
+			<Section>GCZEKE2017</Section>
+			<RepriseAutomatique Active="non"/>
+			<RepriseManuelle Possible="oui">
+			<Instruction>Instruction reprise de l'etape010</Instruction>
+				<Etape>Etape010</Etape>
+			</RepriseManuelle>
+		</Etape>
+
+	</Etapes>
+</Travail>

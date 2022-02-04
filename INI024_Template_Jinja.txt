@@ -1,0 +1,272 @@
+; {{ job.jb }}.ini
+; Production des rapports automatisés
+; Si des changements sont fait dans ce fichier ini, voir à les faires dans le fichier iinm025q.ini également
+;pré-requis à satisfaire avant de démarrer la job
+[pre-requis]
+temps-exec=02:00:00
+
+;repertoire1=$REP$
+; espace de travail
+[travail]
+repertoire-defaut=$REP$
+repertoire_securise=$REP$
+log=$NOMJOB$.log
+REPERTOIRE-LOG=\\IA.IAFG.NET\R01\SVC\SCOPC-PRODPC\FERME04\$ENV$\IN\LOGS\
+retention=MEN
+orchestration={{ job.jb }}
+
+; Pour le contrôle des utilitaires
+[controle]
+inmopp01.retour=0000
+IUTP0100.retour=0000
+IUTP0305.retour=0000
+IUTP0310.retour=0000
+IUTP0320.retour=0000
+IUTP0340.retour=0000
+INMDPW24.retour=0000
+UTMDPV15.retour=0004
+
+[CORP_IDENT]
+Code_Company=IA
+
+[LOGO]
+Logo_F=logo_f.bmp
+Logo_A=logo_a.bmp
+Logo_Ass_coll_F=all.bmp
+Logo_Ass_coll_A=Asscolla.bmp
+
+[Language]
+Current=F
+Available=F,A
+
+; Vider les répertoires
+[UTMDPN02]
+repertoire1=$REP$\
+
+; Création de fichier ZIP
+[UTMDPN08-0340]
+
+; Les champs sont complétés dynamiquement
+[FICHIERS]
+file-zip-rpt=*.*
+
+; Prise de copie de sécurité
+[UTMDPN08-0310-XX]
+Zip-type=List
+Repertoire=\\IA.IAFG.NET\R01\SVC\SCOPC-PRODPC\FERME04\$ENV$\IN\BU\
+
+; Les autres champs sont complétés dynamiquement
+[UTMDPN08-0310]
+REPERTOIRE=\\IA.IAFG.NET\R01\SVC\SCOPC-PRODPC\FERME04\$ENV$\IN\BU\
+zip-type=list
+zip-type-name=$NOMJOB$.zip
+inclureSousRepertoires=OUI
+fichier1=file-zip-rpt
+fichier1-repertoire=$REP$\
+
+[UTMDPV15]
+LogId=$USER$
+
+;DNS-HPExstream= Voir Variables
+; Gestion des FTP
+[UTMDPV26-0170-XX-PC]
+transfert1=FTP
+
+[UTMDPV26-0170-XX-PC-transfert1]
+type=pcmvs
+LogId=lidop1
+
+; Envoie de courriel lorsqu'une erreur
+[RAPPORT_ERREUR]
+sujet=Rapports automatises en erreur
+message=<groupe: HD_SUPP_APPL_DCO><categorie: SAPP_APP><ci: SO_IN><client: LNCARJ><type: probleme><fonction: RAPPORT>
+
+; Les autres champs sont complétés dynamiquement
+[UTMDPV17]
+
+; Les champs sont complétés dynamiquement
+[UTMDPN07]
+
+; Les champs sont complétés dynamiquement
+; databases utilisées par l'application
+[DB]
+DB1=MSSQL
+DB2=AS400
+
+[inmdpp24]
+TIDE=DB1
+TANGO=DB2
+
+[imprimante]
+PDF=PDF_TIDE
+
+[Rapports]
+
+;Connection à TIDE
+[DB1]
+EnvironnementBD=$ENVHARMO$
+Driver=SQL Server
+Port=$PORTBDTIDE$
+Servername=$SERVEURBDTIDE$
+DBMS=ADO.Net
+Database=$DATABASETIDE$
+DbParm="Namespace='System.Data.SqlClient',DataSource='tcp:$SERVEURBDTIDE$,$PORTBDTIDE$',Database='$DATABASETIDE$',MultiSubnetFailover=True,TrustedConnection=0,CommandTimeout=300"
+LogId=in_prodpc
+Autocommit=TRUE
+
+;Connection à TANGO
+[DB2]
+DBMS=ODBC
+LogId=lidop1
+
+;Communication MQSeries
+[MQSeries]
+
+;Environnement voir section Variable
+[Variable]
+$NOMJOB$={{ job.jb }}
+$REP$=\\ia.iafg.net\r01\Svc\SCOPC-PRODPC\FERME04\$ENV$\IN\JOBS\$NOMJOB$
+Rapports.RepertoireModeleFusionExcel=\\liamt04\col\INV\TIDE\$ENVHARMO$\Formcorr
+$DATABASETIDEPROD$=in_reg_asscoll_ia
+$SYSTEME$=IN
+$NOMSOUSSYSTEME$=Tide
+
+[environnement-test]
+Variable.$ENVHARMO$=UNIT
+Variable.$ENV$=test
+
+; Si on débogue la prod pc avec un code de développeur et non la PROD PC, remplacer TrustedConnection=0 dans DB1.DbParm par TrustedConnection=1
+; Utiliser également WINDOWSINTEGRATED comme $USER_SSIS$
+Variable.$PORTBDTIDE$=41168
+Variable.$DATABASETIDE$=$DATABASETIDEPROD$_u
+Variable.$SERVEURBDTIDE$=sy-in_tide.unit.sgbd.ia.iafg.net
+DB2.Servername=LIACGIB
+DB2.DbParm=ConnectString='DSN=TIDE_TEST_TANGO_IA;UID=&logid;PWD=&logpass;' CursorLib = 'ODBC_Cur_Libn
+RAPPORT_ERREUR.To1=devtide
+
+; Si on roule la job sur nos poste, il faut utiliser le compte WindowsIntegrated
+; Si on roule la job sur la prod pc, il faut utiliser le compte a24int02
+Variable.$USER$=WindowsIntegrated
+
+;Variable.$USER$=liadom01\a24int02
+UTMDPV15.DNS-HPExstream=emws-hpexstream.INTG.ia.iafg.net
+MQSeries.Environnement=ACCP
+Variable.$ENVIRO$=TEST
+
+[environnement-tst2]
+Variable.$ENVHARMO$=ASMB
+Variable.$ENV$=tst2
+
+; Si on débogue la prod pc avec un code de développeur et non la PROD PC, remplacer TrustedConnection=0 dans DB1.DbParm par TrustedConnection=1
+Variable.$PORTBDTIDE$=42168
+Variable.$DATABASETIDE$=$DATABASETIDEPROD$_b
+Variable.$SERVEURBDTIDE$=sy-in_tide.asmb.sgbd.ia.iafg.net
+DB2.Servername=LIACGIB
+DB2.DbParm=ConnectString='DSN=TIDE_TEST_TANGO_IA;UID=&logid;PWD=&logpass;' CursorLib = 'ODBC_Cur_Libn
+RAPPORT_ERREUR.To1=devtide
+
+; Si on roule la job sur nos poste, il faut utiliser le compte WindowsIntegrated
+; Si on roule la job sur la prod pc, il faut utiliser le compte a24int02
+Variable.$USER$=WindowsIntegrated
+
+;Variable.$USER$=liadom01\a24int02
+UTMDPV15.DNS-HPExstream=emws-hpexstream.INTG.ia.iafg.net
+MQSeries.Environnement=ACCP
+Variable.$ENVIRO$=TST2
+
+[environnement-tst5]
+Variable.$ENVHARMO$=FNCT
+Variable.$ENV$=tst5
+
+; Si on débogue la prod pc avec un code de développeur et non la PROD PC, remplacer TrustedConnection=0 dans DB1.DbParm par TrustedConnection=1
+Variable.$PORTBDTIDE$=43168
+Variable.$DATABASETIDE$=$DATABASETIDEPROD$_c
+Variable.$SERVEURBDTIDE$=sy-in_tide.fnct.sgbd.ia.iafg.net
+DB2.Servername=LIACGIB
+DB2.DbParm=ConnectString='DSN=TIDE_TEST_TANGO_IA;UID=&logid;PWD=&logpass;' CursorLib = 'ODBC_Cur_Libn
+RAPPORT_ERREUR.To1=devtide
+
+; Si on roule la job sur nos poste, il faut utiliser le compte WindowsIntegrated
+; Si on roule la job sur la prod pc, il faut utiliser le compte a24int02
+Variable.$USER$=WindowsIntegrated
+
+;Variable.$USER$=liadom01\a24int02
+UTMDPV15.DNS-HPExstream=emws-hpexstream.INTG.ia.iafg.net
+MQSeries.Environnement=ACCP
+Variable.$ENVIRO$=TST5
+
+[environnement-fonc]
+Variable.$ENVHARMO$=INTG
+Variable.$ENV$=fonc
+Variable.$PORTBDTIDE$=44168
+Variable.$DATABASETIDE$=$DATABASETIDEPROD$_i
+Variable.$SERVEURBDTIDE$=sy-in_tide.intg.sgbd.ia.iafg.net
+DB2.Servername=LIACGIB
+DB2.DbParm=ConnectString='DSN=TIDE_TEST_TANGO_IA;UID=&logid;PWD=&logpass;' CursorLib = 'ODBC_Cur_Libn
+RAPPORT_ERREUR.To1=devtide
+
+; Si on roule la job sur nos poste, il faut utiliser le compte WindowsIntegrated
+; Si on roule la job sur la prod pc, il faut utiliser le compte a24int02
+Variable.$USER$=liadom01\a24inf02
+UTMDPV15.DNS-HPExstream=emws-hpexstream.INTG.ia.iafg.net
+MQSeries.Environnement=ACCP
+Variable.$ENVIRO$=FONC
+
+[environnement-fct1]
+Variable.$ENVHARMO$=ACCP
+Variable.$ENV$=fct1
+Variable.$PORTBDTIDE$=45168
+Variable.$DATABASETIDE$=$DATABASETIDEPROD$_a
+Variable.$SERVEURBDTIDE$=sy-in_tide.accp.sgbd.ia.iafg.net
+DB2.Servername=LIACGIB
+DB2.DbParm=ConnectString='DSN=TIDE_TEST_TANGO_IA;UID=&logid;PWD=&logpass;' CursorLib = 'ODBC_Cur_Libn
+RAPPORT_ERREUR.To1=devtide
+
+; Si on roule la job sur nos poste, il faut utiliser le compte WindowsIntegrated
+; Si on roule la job sur la prod pc, il faut utiliser le compte a24int02
+Variable.$USER$=liadom01\a24inf02
+UTMDPV15.DNS-HPExstream=emws-hpexstream.INTG.ia.iafg.net
+MQSeries.Environnement=ACCP
+Variable.$ENVIRO$=FCT1
+
+[environnement-prod]
+Variable.$ENVHARMO$=PROD
+Variable.$ENV$=prod
+Variable.$PORTBDTIDE$=46168
+Variable.$DATABASETIDE$=$DATABASETIDEPROD$
+Variable.$SERVEURBDTIDE$=sy-in_tide.sgbd.ia.iafg.net
+DB2.Servername=LIACGIF
+DB2.DbParm=ConnectString='DSN=TIDE_PROD_TANGO_IA;UID=&logid;PWD=&logpass;' CursorLib = 'ODBC_Cur_Lib'
+RAPPORT_ERREUR.To1=sy-magic-prod
+RAPPORT_ERREUR.To2=disability.mentors@ia.ca
+RAPPORT_ERREUR.To3=IAM-DP-CAR-Support Tide
+Variable.$USER$=liadom01\a24inp02
+UTMDPV15.DNS-HPExstream=emws-hpexstream.ia.iafg.net
+MQSeries.Environnement=PROD
+Variable.$ENVIRO$=PROD
+
+[UTMDPN14]
+
+[ENVIRONNEMENT]
+GLOBAL_LANGUE=F
+
+[environnement-TST1]
+Variable.$ENVIRO$=TST1
+
+[environnement-TST3]
+Variable.$ENVIRO$=TST3
+
+[environnement-TST4]
+Variable.$ENVIRO$=TST4
+
+[environnement-FCT2]
+Variable.$ENVIRO$=FCT2
+
+[environnement-FCT3]
+Variable.$ENVIRO$=FCT3
+
+[environnement-FCT4]
+Variable.$ENVIRO$=FCT4
+
+[environnement-FCT5]
+Variable.$ENVIRO$=FCT5
